@@ -20,7 +20,10 @@ RUN bundle install
 RUN cp config/database.yml.example config/database.yml
 
 # Setup DB
-RUN bundle exec rake db:setup
+RUN cd diffux && bundle exec rake db:setup
+
+# Installing nodejs
+RUN apt-get install -qqy nodejs
 
 # Enable ssh
 RUN rm -f /etc/service/sshd/down
@@ -32,6 +35,3 @@ RUN /etc/my_init.d/00_regen_ssh_host_keys.sh
 
 # Run diffux
 CMD bundle exec rails s & redis-server & bundle exec sidekiq
-
-
-
